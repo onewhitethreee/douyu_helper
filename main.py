@@ -12,7 +12,7 @@ from common.send_message import send_message
 def run():
     logger.info("------登录检查开始------")
     login_res = is_login()
-    
+    msg = ''
     logger.info("------登录检查结束------")
     mode = int(conf.get_conf("Modechoose")['givemode'])
     if login_res:
@@ -42,20 +42,21 @@ def run():
                         glow_donate(every_give, room)
                 logger.info("------荧光棒捐赠结束------")
                 get_need_exp()
+                msg = "当前模式为平均分配模式,每个房间捐赠{}个荧光棒,最后一个房间捐赠{}个荧光棒".format(every_give, left) + "\n" + "当前荧光棒剩余{}个".format(glow_nums) + "\n" + "当前荧光棒经验值为{}".format(get_need_exp())
             else:
                 logger.warning("配置错误,没有这种选项,请修改配置并重新执行")
         except Exception as e:
             logger.warning("背包中没有荧光棒,无法执行赠送,任务即将结束")
             logger.debug(e)
-        with open('./log/daily.log', 'r', encoding="UTF-8") as lg:
-            lg.write("每日自动送礼物任务执行完毕")
+            msg = "背包中没有荧光棒,无法执行赠送,任务即将结束"
+
     else:
         logger.warning("未登录状态无法进行后续操作,任务已结束")
-        with open('./log/daily.log', 'w+', encoding="UTF-8") as lg:
-            lg.write("未登录状态无法进行后续操作,任务已结束")
+        msg = "未登录状态无法进行后续操作,任务已结束"
+        
     try:
         server_key = get_secrets("SERVERPUSHKEY")
-        send_message(server_key)
+        send_message(server_key, msg)
     except Exception as e:
         logger.info("当前未配置Server酱推送，任务结束")
         logger.debug(e)
