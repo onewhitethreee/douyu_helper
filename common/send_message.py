@@ -18,19 +18,12 @@ def send_message(send_key):
         "title": u"DouYu-Helper执行结果",
         "desp": log_reader()
     }
-    if data['desp']:
-        try:
-            logger.info("------执行server酱推送------")
-            requests.post(url, data=data)
-            logger.info("------推送成功------")
-        except Exception as e:
-            logger.error(e)
-    else:
-        data = {
-            "title": u"DouYu-Helper执行结果",
-            "desp": "执行出现问题,日志为空"
-        }
+    try:
+        logger.info("------执行server酱推送------")
         requests.post(url, data=data)
+        logger.info("------推送成功------")
+    except Exception as e:
+        logger.error(e)
 
 
 if __name__ == '__main__':
