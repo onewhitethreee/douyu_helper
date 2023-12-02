@@ -12,6 +12,7 @@ from common.send_message import send_message
 def run():
     logger.info("------登录检查开始------")
     login_res = is_login()
+    
     logger.info("------登录检查结束------")
     mode = int(conf.get_conf("Modechoose")['givemode'])
     if login_res:
@@ -46,8 +47,12 @@ def run():
         except Exception as e:
             logger.warning("背包中没有荧光棒,无法执行赠送,任务即将结束")
             logger.debug(e)
+        with open('./log/daily.log', 'r', encoding="UTF-8") as lg:
+            lg.write("每日自动送礼物任务执行完毕")
     else:
         logger.warning("未登录状态无法进行后续操作,任务已结束")
+        with open('./log/daily.log', 'w+', encoding="UTF-8") as lg:
+            lg.write("未登录状态无法进行后续操作,任务已结束")
     try:
         server_key = get_secrets("SERVERPUSHKEY")
         send_message(server_key)
