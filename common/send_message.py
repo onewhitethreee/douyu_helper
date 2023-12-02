@@ -12,11 +12,11 @@ def log_reader():
     return logs_str
 
 
-def send_message(send_key):
+def send_message(send_key, msg):
     url = "https://sctapi.ftqq.com/{}.send".format(send_key)
     data = {
         "title": u"DouYu-Helper执行结果",
-        "desp": log_reader()
+        "desp": msg
     }
     try:
         logger.info("------执行server酱推送------")
