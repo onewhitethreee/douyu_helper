@@ -29,6 +29,7 @@ def run():
                     glow_donate(nums[i], room_list[i])
                 logger.info("------荧光棒捐赠结束------")
                 get_need_exp()
+                msg = "当前模式为自选模式,每个房间捐赠{}个荧光棒".format(nums) + "\n" + "当前荧光棒剩余{}个".format(glow_nums) + "\n" + "当前荧光棒经验值为{}".format(get_need_exp())
             elif mode == 0:
                 logger.info("当前选择模式为:平均分配模式")
                 room_list = get_room_list()
@@ -45,6 +46,7 @@ def run():
                 msg = "当前模式为平均分配模式,每个房间捐赠{}个荧光棒,最后一个房间捐赠{}个荧光棒".format(every_give, left) + "\n" + "当前荧光棒剩余{}个".format(glow_nums) + "\n" + "当前荧光棒经验值为{}".format(get_need_exp())
             else:
                 logger.warning("配置错误,没有这种选项,请修改配置并重新执行")
+                msg = '配置错误,没有这种选项,请修改配置并重新执行'
         except Exception as e:
             logger.warning("背包中没有荧光棒,无法执行赠送,任务即将结束")
             logger.debug(e)
