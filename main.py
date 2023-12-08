@@ -7,7 +7,7 @@ from common.logger import logger
 import math
 from common.get_secrets import get_secrets
 from common.send_message import send_message
-
+from common.dy_badge import info_exp
 
 def run():
     logger.info("------登录检查开始------")
@@ -29,7 +29,7 @@ def run():
                     glow_donate(nums[i], room_list[i])
                 logger.info("------荧光棒捐赠结束------")
                 get_need_exp()
-                msg = "当前模式为自选模式,每个房间捐赠{}个荧光棒".format(nums) + "\n" + "当前荧光棒剩余{}个".format(glow_nums) + "\n" + "当前荧光棒经验值为{}".format(get_need_exp())
+                msg = "当前模式为自选模式,每个房间捐赠{}个荧光棒".format(nums) + "\n" + "当前荧光棒剩余{}个".format(glow_nums) + "\n" + "当前房间号为{}".format(room_list) + info_exp + '\n'
             elif mode == 0:
                 logger.info("当前选择模式为:平均分配模式")
                 room_list = get_room_list()
@@ -43,7 +43,7 @@ def run():
                         glow_donate(every_give, room)
                 logger.info("------荧光棒捐赠结束------")
                 get_need_exp()
-                msg = "当前模式为平均分配模式,每个房间捐赠{}个荧光棒,最后一个房间捐赠{}个荧光棒".format(every_give, left) + "\n" + "当前荧光棒剩余{}个".format(glow_nums) + "\n" + "当前荧光棒经验值为{}".format(get_need_exp())
+                msg = "当前模式为自选模式,每个房间捐赠{}个荧光棒".format(nums) + "\n" + "当前荧光棒剩余{}个".format(glow_nums) + "\n" + "当前房间号为{}".format(room_list) + info_exp + '\n'
             else:
                 logger.warning("配置错误,没有这种选项,请修改配置并重新执行")
                 msg = '配置错误,没有这种选项,请修改配置并重新执行'
