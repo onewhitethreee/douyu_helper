@@ -7,7 +7,6 @@ from common.logger import logger
 import math
 from common.get_secrets import get_secrets
 from common.send_message import send_message
-from common.dy_badge import info_exp
 
 def run():
     logger.info("------登录检查开始------")
