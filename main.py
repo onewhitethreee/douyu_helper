@@ -2,7 +2,7 @@
 from common.dy_glows import *
 from common.login_check import *
 from common.config import conf
-from common.dy_badge import *
+from common.dy_badge import *; info_exp
 from common.logger import logger
 import math
 from common.get_secrets import get_secrets
