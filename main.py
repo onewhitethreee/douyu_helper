@@ -7,6 +7,7 @@ from common.logger import logger
 import math
 from common.get_secrets import get_secrets
 from common.send_message import send_message
+from common.send_message import log_reader
 
 def run():
     logger.info("------登录检查开始------")
@@ -42,7 +43,7 @@ def run():
                         glow_donate(every_give, room)
                 logger.info("------荧光棒捐赠结束------")
                 get_need_exp()
-                msg = "当前模式为自选模式,每个房间捐赠{}个荧光棒".format(nums) + "\n" + "当前荧光棒剩余{}个".format(glow_nums) + "\n" + "当前房间号为{}".format(room_list)
+                msg = "当前模式为平均分配模式,每个房间捐赠{}个荧光棒".format(every_give) + "\n" + "当前荧光棒剩余{}个".format(glow_nums) + "\n" + "当前房间号为{}".format(room_list)
             else:
                 logger.warning("配置错误,没有这种选项,请修改配置并重新执行")
                 msg = '配置错误,没有这种选项,请修改配置并重新执行'
@@ -57,7 +58,10 @@ def run():
         
     try:
         server_key = get_secrets("SERVERPUSHKEY")
-        send_message(server_key, msg)
+        # 读取完整的日志内容
+        full_log = log_reader()
+        # 将当前消息和完整日志一起发送
+        send_message(server_key, msg + "\n\n完整日志:\n" + full_log)
     except Exception as e:
         logger.info("当前未配置Server酱推送，任务结束")
         logger.debug(e)
