@@ -3,16 +3,19 @@ from common.dy_glows import *
 from common.login_check import *
 from common.config import conf
 from common.dy_badge import *
-from common.logger import logger
+from common.logger import logger, loggers
 import math
 from common.get_secrets import get_secrets
 from common.send_message import send_message
 import io
 import sys
+from loguru import logger as loguru_logger
 
 # 创建一个StringIO对象来捕获日志
 log_capture = io.StringIO()
-sys.stdout = log_capture
+
+# 添加一个处理器来捕获日志
+handler_id = loguru_logger.add(log_capture, format="{time:YYYY-MM-DD HH:mm:ss.SSS} | {level} | {message}")
 
 def run():
     logger.info("------登录检查开始------")
@@ -71,8 +74,8 @@ def run():
         logger.info("当前未配置Server酱推送，任务结束")
         logger.debug(e)
     finally:
-        # 恢复标准输出
-        sys.stdout = sys.__stdout__
+        # 移除日志处理器
+        loguru_logger.remove(handler_id)
 
 
 if __name__ == '__main__':
