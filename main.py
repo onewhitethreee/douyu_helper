@@ -15,7 +15,7 @@ from loguru import logger as loguru_logger
 log_capture = io.StringIO()
 
 # 添加一个处理器来捕获日志
-handler_id = loguru_logger.add(log_capture, format="{time:YYYY-MM-DD HH:mm:ss.SSS} | {level} | {message}")
+handler_id = loguru_logger.add(log_capture, format="{time:YYYY-MM-DD HH:mm:ss.SSS} | {level} | {message}\n")
 
 def run():
     logger.info("------登录检查开始------")
@@ -68,8 +68,8 @@ def run():
         server_key = get_secrets("SERVERPUSHKEY")
         # 获取捕获的日志内容
         full_log = log_capture.getvalue()
-        # 将当前消息和完整日志一起发送
-        send_message(server_key, msg + "\n\n完整日志:\n" + full_log)
+        # 将当前消息和完整日志一起发送，确保消息之间有足够的换行
+        send_message(server_key, msg + "\n\n\n完整日志:\n\n" + full_log)
     except Exception as e:
         logger.info("当前未配置Server酱推送，任务结束")
         logger.debug(e)
