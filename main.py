@@ -7,7 +7,12 @@ from common.logger import logger
 import math
 from common.get_secrets import get_secrets
 from common.send_message import send_message
-from common.send_message import log_reader
+import io
+import sys
+
+# 创建一个StringIO对象来捕获日志
+log_capture = io.StringIO()
+sys.stdout = log_capture
 
 def run():
     logger.info("------登录检查开始------")
@@ -58,13 +63,16 @@ def run():
         
     try:
         server_key = get_secrets("SERVERPUSHKEY")
-        # 读取完整的日志内容
-        full_log = log_reader()
+        # 获取捕获的日志内容
+        full_log = log_capture.getvalue()
         # 将当前消息和完整日志一起发送
         send_message(server_key, msg + "\n\n完整日志:\n" + full_log)
     except Exception as e:
         logger.info("当前未配置Server酱推送，任务结束")
         logger.debug(e)
+    finally:
+        # 恢复标准输出
+        sys.stdout = sys.__stdout__
 
 
 if __name__ == '__main__':
